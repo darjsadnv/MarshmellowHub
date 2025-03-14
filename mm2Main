@@ -77,20 +77,21 @@ tween1.Completed:Connect(function()
 	frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	frame.Visible = false
 	frame.ClipsDescendants = true
-	-- Modified txv3 TextLabel
+	-- Title Text (Marshmallow Hub V3)
 	local txv3 = Instance.new("TextLabel")
 	txv3.Parent = frame
 	txv3.Text = "Marshmallow Hub V3"
-	txv3.Font = Enum.Font.GothamBold -- Modern font
-	txv3.TextSize = 20 -- Slightly smaller than the title
+	txv3.Font = Enum.Font.GothamBold
+	txv3.TextSize = 20
 	txv3.TextColor3 = Color3.new(1, 1, 1) -- White text
 	txv3.BackgroundTransparency = 1 -- Transparent background
-	txv3.Size = UDim2.new(1, 0, 0, 30) -- Smaller height
-	txv3.Position = UDim2.new(0, 0, 0, 12) -- Moved slightly higher
+	txv3.Size = UDim2.new(1, 0, 0, 30) -- Full width, 30px height
+	txv3.Position = UDim2.new(0, 0, 0, 10) -- Positioned 10px from the top
 	txv3.TextXAlignment = Enum.TextXAlignment.Center -- Center text horizontally
 	txv3.TextYAlignment = Enum.TextYAlignment.Center -- Center text vertically
 	txv3.TextStrokeTransparency = 0.5 -- Add a subtle text stroke for better readability
 	txv3.TextStrokeColor3 = Color3.new(0, 0, 0) -- Black stroke
+	txv3.ZIndex = 2 -- Ensure it's above other elements
 
 	-- Gradient for txv3
 	local txv3Gradient = Instance.new("UIGradient")
@@ -106,80 +107,14 @@ tween1.Completed:Connect(function()
 	txv3Background.Parent = frame
 	txv3Background.BackgroundColor3 = Color3.new(0.15, 0.15, 0.25)
 	txv3Background.BackgroundTransparency = 0.7 -- More transparent
-	txv3Background.Size = UDim2.new(1, 0, 0, 30)
-	txv3Background.Position = UDim2.new(0, 0, 0, 30)
-	txv3Background.ZIndex = -1 -- Ensure it's behind the text
+	txv3Background.Size = UDim2.new(1, 0, 0, 30) -- Full width, 30px height
+	txv3Background.Position = UDim2.new(0, 0, 0, 10) -- Positioned 10px from the top
+	txv3Background.ZIndex = 1 -- Ensure it's behind the text
 
+	-- Rounded Corners for Background
 	local txv3Corner = Instance.new("UICorner")
 	txv3Corner.Parent = txv3Background
 	txv3Corner.CornerRadius = UDim.new(0, 8) -- Rounded corners
-
-	-- Ensure the text is on top of the background
-	txv3.ZIndex = 2
-
-	-- Modify Frame Appearance
-	frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1) -- Dark background
-	frame.BackgroundTransparency = 0.3 -- Slightly transparent
-
-	-- Add a Border to the Frame
-	local frameBorder = Instance.new("UIStroke")
-	frameBorder.Parent = frame
-	frameBorder.Color = Color3.new(0.4, 0.2, 0.6) -- Purple border
-	frameBorder.Thickness = 2 -- Border thickness
-	frameBorder.Transparency = 0.5 -- Slightly transparent
-
-	-- Improve Frame Gradient
-	local frameGradient = Instance.new("UIGradient")
-	frameGradient.Parent = frame
-	frameGradient.Rotation = 90 -- Vertical gradient
-	frameGradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)), -- Start color
-		ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.2)) -- End color
-	})
-
-	-- Rounded Corners for Frame
-	local frameCorner = Instance.new("UICorner")
-	frameCorner.Parent = frame
-	frameCorner.CornerRadius = UDim.new(0, 12) -- Rounded corners
-
-	-- Title Bar Gradient
-	local titleBarGradient = Instance.new("UIGradient")
-	titleBarGradient.Parent = titleBar
-	titleBarGradient.Rotation = 90 -- Vertical gradient
-	titleBarGradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.3, 0.2, 0.5)), -- Start color
-		ColorSequenceKeypoint.new(1, Color3.new(0.2, 0.1, 0.3)) -- End color
-	})
-
-	-- Close Button Gradient
-	local closeButtonGradient = Instance.new("UIGradient")
-	closeButtonGradient.Parent = closeButton
-	closeButtonGradient.Rotation = 90 -- Vertical gradient
-	closeButtonGradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.8, 0.2, 0.2)), -- Red start
-		ColorSequenceKeypoint.new(1, Color3.new(0.5, 0.1, 0.1)) -- Dark red end
-	})
-
-	-- Rounded Corners for Close Button
-	local closeButtonCorner = Instance.new("UICorner")
-	closeButtonCorner.Parent = closeButton
-	closeButtonCorner.CornerRadius = UDim.new(0, 8) -- Rounded corners
-
-
-	-- Gradient Background
-	local gradient = Instance.new("UIGradient")
-	gradient.Parent = frame
-	gradient.Rotation = 90
-	gradient.Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)),
-		ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.2))
-	})
-
-	-- Rounded Corners
-	local corner = Instance.new("UICorner")
-	corner.Parent = frame
-	corner.CornerRadius = UDim.new(0, 12)
-
 	-- Title Bar
 	local titleBar = Instance.new("Frame")
 	titleBar.Parent = frame
@@ -199,7 +134,7 @@ tween1.Completed:Connect(function()
 	title.AnchorPoint = Vector2.new(0.5, 0.5)
 	title.TextScaled = true
 
-	-- Close Button (Fixed Placement)
+	-- Close Button
 	local closeButton = Instance.new("TextButton")
 	closeButton.Parent = titleBar
 	closeButton.Text = "X"
@@ -211,7 +146,7 @@ tween1.Completed:Connect(function()
 	closeButton.Size = UDim2.new(0, 30, 0, 30)
 	closeButton.AnchorPoint = Vector2.new(1, 0.5)
 
-	-- Add Close Button Functionality
+	-- Close Button Functionality
 	closeButton.MouseButton1Click:Connect(function()
 		local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
 			BackgroundTransparency = 1,
@@ -255,6 +190,7 @@ tween1.Completed:Connect(function()
 	content.BackgroundTransparency = 1
 	content.Size = UDim2.new(1, -20, 1, -60)
 	content.Position = UDim2.new(0, 10, 0, 50)
+
 	-- ESP Toggle Button
 	local espButton = Instance.new("TextButton")
 	espButton.Parent = content
@@ -287,17 +223,20 @@ tween1.Completed:Connect(function()
 
 	-- Function to Enable ESP
 	function EnableESP()
-		for _, player in pairs(Players:GetPlayers()) do
-			if player ~= plr and player.Character then
-				local box = Instance.new("BoxHandleAdornment")
-				box.Size = player.Character:FindFirstChild("HumanoidRootPart").Size + Vector3.new(0.1, 0.1, 0.1)
-				box.Adornee = player.Character:FindFirstChild("HumanoidRootPart")
-				box.AlwaysOnTop = true
-				box.ZIndex = 10
-				box.Transparency = 0.5
-				box.Color3 = Color3.new(1, 0, 0)
-				box.Parent = player.Character:FindFirstChild("HumanoidRootPart")
-				espBoxes[player] = box
+		for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+			if player ~= plr then
+				local character = player.Character
+				if character then
+					local box = Instance.new("BoxHandleAdornment")
+					box.Size = Vector3.new(4, 6, 4)
+					box.Adornee = character:FindFirstChild("HumanoidRootPart")
+					box.AlwaysOnTop = true
+					box.ZIndex = 10
+					box.Transparency = 0.5
+					box.Color3 = Color3.new(1, 0, 0)
+					box.Parent = character
+					espBoxes[player] = box
+				end
 			end
 		end
 	end
@@ -309,18 +248,6 @@ tween1.Completed:Connect(function()
 		end
 		espBoxes = {}
 	end
-
-	-- Marshmallow Hub V3 MM2 Script Text Label
-	local mm2Text = Instance.new("TextLabel")
-	mm2Text.Parent = content
-	mm2Text.Text = "Marshmallow Hub V3 MM2 Script"
-	mm2Text.Font = Enum.Font.GothamBold
-	mm2Text.TextSize = 20
-	mm2Text.TextColor3 = Color3.new(1, 1, 1)
-	mm2Text.BackgroundTransparency = 1
-	mm2Text.Position = UDim2.new(0.5, 0, 0.1, 0)
-	mm2Text.AnchorPoint = Vector2.new(0.5, 0)
-	mm2Text.TextScaled = true
 
 	-- Aimbot Toggle Button
 	local aimbotButton = Instance.new("TextButton")
@@ -350,19 +277,13 @@ tween1.Completed:Connect(function()
 		end
 	end)
 
-	-- Tween for frame pop-up
-	local frameTweenIn = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-		BackgroundTransparency = 0,
-		Size = UDim2.new(0, 400, 0, 300)
-	})
-	local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-		BackgroundTransparency = 1,
-		Size = UDim2.new(0, 0, 0, 0)
-	})
-
 	-- Show frame when ImageButton is clicked
 	ib.MouseButton1Click:Connect(function()
 		frame.Visible = true
+		local frameTweenIn = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			BackgroundTransparency = 0,
+			Size = UDim2.new(0, 400, 0, 300)
+		})
 		frameTweenIn:Play()
 	end)
 end)
@@ -387,7 +308,7 @@ local function GetClosestPlayer()
 	local Target = nil
 
 	for _, v in next, Players:GetPlayers() do
-		if v.Name ~= LocalPlayer.Name then
+		if v.Name ~= LocalPlayer.name then
 			if _G.TeamCheck == true then
 				if v.Team ~= LocalPlayer.Team then
 					if v.Character ~= nil then
@@ -453,4 +374,4 @@ RunService.RenderStepped:Connect(function()
 			TweenService:Create(Camera, TweenInfo.new(_G.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, target.Character[_G.AimPart].Position)}):Play()
 		end
 	end
-end) 
+end)
