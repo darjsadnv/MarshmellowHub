@@ -77,6 +77,94 @@ tween1.Completed:Connect(function()
 	frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	frame.Visible = false
 	frame.ClipsDescendants = true
+	-- Modified txv3 TextLabel
+	local txv3 = Instance.new("TextLabel")
+	txv3.Parent = frame
+	txv3.Text = "Marshmallow Hub V3"
+	txv3.Font = Enum.Font.GothamBold -- Modern font
+	txv3.TextSize = 20 -- Slightly smaller than the title
+	txv3.TextColor3 = Color3.new(1, 1, 1) -- White text
+	txv3.BackgroundTransparency = 1 -- Transparent background
+	txv3.Size = UDim2.new(1, 0, 0, 30) -- Smaller height
+	txv3.Position = UDim2.new(0, 0, 0, 12) -- Moved slightly higher
+	txv3.TextXAlignment = Enum.TextXAlignment.Center -- Center text horizontally
+	txv3.TextYAlignment = Enum.TextYAlignment.Center -- Center text vertically
+	txv3.TextStrokeTransparency = 0.5 -- Add a subtle text stroke for better readability
+	txv3.TextStrokeColor3 = Color3.new(0, 0, 0) -- Black stroke
+
+	-- Gradient for txv3
+	local txv3Gradient = Instance.new("UIGradient")
+	txv3Gradient.Parent = txv3
+	txv3Gradient.Rotation = 90 -- Vertical gradient
+	txv3Gradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.4, 0.2, 0.6)), -- Purple start
+		ColorSequenceKeypoint.new(1, Color3.new(0.2, 0.1, 0.4)) -- Dark purple end
+	})
+
+	-- Optional Background for txv3
+	local txv3Background = Instance.new("Frame")
+	txv3Background.Parent = frame
+	txv3Background.BackgroundColor3 = Color3.new(0.15, 0.15, 0.25)
+	txv3Background.BackgroundTransparency = 0.7 -- More transparent
+	txv3Background.Size = UDim2.new(1, 0, 0, 30)
+	txv3Background.Position = UDim2.new(0, 0, 0, 30)
+	txv3Background.ZIndex = -1 -- Ensure it's behind the text
+
+	local txv3Corner = Instance.new("UICorner")
+	txv3Corner.Parent = txv3Background
+	txv3Corner.CornerRadius = UDim.new(0, 8) -- Rounded corners
+
+	-- Ensure the text is on top of the background
+	txv3.ZIndex = 2
+
+	-- Modify Frame Appearance
+	frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1) -- Dark background
+	frame.BackgroundTransparency = 0.3 -- Slightly transparent
+
+	-- Add a Border to the Frame
+	local frameBorder = Instance.new("UIStroke")
+	frameBorder.Parent = frame
+	frameBorder.Color = Color3.new(0.4, 0.2, 0.6) -- Purple border
+	frameBorder.Thickness = 2 -- Border thickness
+	frameBorder.Transparency = 0.5 -- Slightly transparent
+
+	-- Improve Frame Gradient
+	local frameGradient = Instance.new("UIGradient")
+	frameGradient.Parent = frame
+	frameGradient.Rotation = 90 -- Vertical gradient
+	frameGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)), -- Start color
+		ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.2)) -- End color
+	})
+
+	-- Rounded Corners for Frame
+	local frameCorner = Instance.new("UICorner")
+	frameCorner.Parent = frame
+	frameCorner.CornerRadius = UDim.new(0, 12) -- Rounded corners
+
+	-- Title Bar Gradient
+	local titleBarGradient = Instance.new("UIGradient")
+	titleBarGradient.Parent = titleBar
+	titleBarGradient.Rotation = 90 -- Vertical gradient
+	titleBarGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.3, 0.2, 0.5)), -- Start color
+		ColorSequenceKeypoint.new(1, Color3.new(0.2, 0.1, 0.3)) -- End color
+	})
+
+	-- Close Button Gradient
+	local closeButtonGradient = Instance.new("UIGradient")
+	closeButtonGradient.Parent = closeButton
+	closeButtonGradient.Rotation = 90 -- Vertical gradient
+	closeButtonGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.8, 0.2, 0.2)), -- Red start
+		ColorSequenceKeypoint.new(1, Color3.new(0.5, 0.1, 0.1)) -- Dark red end
+	})
+
+	-- Rounded Corners for Close Button
+	local closeButtonCorner = Instance.new("UICorner")
+	closeButtonCorner.Parent = closeButton
+	closeButtonCorner.CornerRadius = UDim.new(0, 8) -- Rounded corners
+
 
 	-- Gradient Background
 	local gradient = Instance.new("UIGradient")
@@ -102,7 +190,7 @@ tween1.Completed:Connect(function()
 	-- Title Text
 	local title = Instance.new("TextLabel")
 	title.Parent = titleBar
-	title.Text = "Marshmallow Hub"
+	title.Text = "Marshmallow Hub V3"
 	title.Font = Enum.Font.GothamBold
 	title.TextSize = 18
 	title.TextColor3 = Color3.new(1, 1, 1)
@@ -167,43 +255,97 @@ tween1.Completed:Connect(function()
 	content.BackgroundTransparency = 1
 	content.Size = UDim2.new(1, -20, 1, -60)
 	content.Position = UDim2.new(0, 10, 0, 50)
+	-- ESP Toggle Button
+	local espButton = Instance.new("TextButton")
+	espButton.Parent = content
+	espButton.Text = "ESP: Off"
+	espButton.Font = Enum.Font.GothamBold
+	espButton.TextSize = 18
+	espButton.TextColor3 = Color3.new(1, 1, 1)
+	espButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+	espButton.Size = UDim2.new(0, 200, 0, 50)
+	espButton.Position = UDim2.new(0.5, -100, 0.7, -25)
+	espButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	espButton.AutoButtonColor = false
 
-	-- Example Content (TextLabel)
-	local exampleText = Instance.new("TextLabel")
-	exampleText.Parent = content
-	exampleText.Text = "Welcome to Marshmallow Hub"
-	exampleText.Font = Enum.Font.Gotham
-	exampleText.TextSize = 14
-	exampleText.TextColor3 = Color3.new(1, 1, 1)
-	exampleText.BackgroundTransparency = 1
-	exampleText.Position = UDim2.new(0.5, 0, 0.5, 0)
-	exampleText.AnchorPoint = Vector2.new(0.5, 0.5)
-	exampleText.TextScaled = true
+	-- ESP Toggle Functionality
+	local espEnabled = false
+	local espBoxes = {} -- Stores ESP boxes for each player
 
-	-- Toggle for Aimbot (Improved Button)
-	local toggleButton = Instance.new("TextButton")
-	toggleButton.Parent = frame
-	toggleButton.Text = "Aimbot: Off"
-	toggleButton.Font = Enum.Font.GothamBold
-	toggleButton.TextSize = 18
-	toggleButton.TextColor3 = Color3.new(1, 1, 1)
-	toggleButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
-	toggleButton.Size = UDim2.new(0, 200, 0, 50)
-	toggleButton.Position = UDim2.new(0.5, -100, 1, -60)
-	toggleButton.AnchorPoint = Vector2.new(0.5, 0.5)
-	toggleButton.AutoButtonColor = false
+	espButton.MouseButton1Click:Connect(function()
+		espEnabled = not espEnabled
+		if espEnabled then
+			espButton.Text = "ESP: On"
+			espButton.BackgroundColor3 = Color3.new(0, 0.5, 0)
+			EnableESP()
+		else
+			espButton.Text = "ESP: Off"
+			espButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+			DisableESP()
+		end
+	end)
 
-	-- Toggle functionality
+	-- Function to Enable ESP
+	function EnableESP()
+		for _, player in pairs(Players:GetPlayers()) do
+			if player ~= plr and player.Character then
+				local box = Instance.new("BoxHandleAdornment")
+				box.Size = player.Character:FindFirstChild("HumanoidRootPart").Size + Vector3.new(0.1, 0.1, 0.1)
+				box.Adornee = player.Character:FindFirstChild("HumanoidRootPart")
+				box.AlwaysOnTop = true
+				box.ZIndex = 10
+				box.Transparency = 0.5
+				box.Color3 = Color3.new(1, 0, 0)
+				box.Parent = player.Character:FindFirstChild("HumanoidRootPart")
+				espBoxes[player] = box
+			end
+		end
+	end
+
+	-- Function to Disable ESP
+	function DisableESP()
+		for player, box in pairs(espBoxes) do
+			box:Destroy()
+		end
+		espBoxes = {}
+	end
+
+	-- Marshmallow Hub V3 MM2 Script Text Label
+	local mm2Text = Instance.new("TextLabel")
+	mm2Text.Parent = content
+	mm2Text.Text = "Marshmallow Hub V3 MM2 Script"
+	mm2Text.Font = Enum.Font.GothamBold
+	mm2Text.TextSize = 20
+	mm2Text.TextColor3 = Color3.new(1, 1, 1)
+	mm2Text.BackgroundTransparency = 1
+	mm2Text.Position = UDim2.new(0.5, 0, 0.1, 0)
+	mm2Text.AnchorPoint = Vector2.new(0.5, 0)
+	mm2Text.TextScaled = true
+
+	-- Aimbot Toggle Button
+	local aimbotButton = Instance.new("TextButton")
+	aimbotButton.Parent = content
+	aimbotButton.Text = "Aimbot: Off"
+	aimbotButton.Font = Enum.Font.GothamBold
+	aimbotButton.TextSize = 18
+	aimbotButton.TextColor3 = Color3.new(1, 1, 1)
+	aimbotButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+	aimbotButton.Size = UDim2.new(0, 200, 0, 50)
+	aimbotButton.Position = UDim2.new(0.5, -100, 0.5, -25)
+	aimbotButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	aimbotButton.AutoButtonColor = false
+
+	-- Aimbot Toggle Functionality
 	local aimbotEnabled = false
-	toggleButton.MouseButton1Click:Connect(function()
+	aimbotButton.MouseButton1Click:Connect(function()
 		aimbotEnabled = not aimbotEnabled
 		if aimbotEnabled then
-			toggleButton.Text = "Aimbot: On"
-			toggleButton.BackgroundColor3 = Color3.new(0, 0.5, 0)
+			aimbotButton.Text = "Aimbot: On"
+			aimbotButton.BackgroundColor3 = Color3.new(0, 0.5, 0)
 			_G.AimbotEnabled = true
 		else
-			toggleButton.Text = "Aimbot: Off"
-			toggleButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+			aimbotButton.Text = "Aimbot: Off"
+			aimbotButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
 			_G.AimbotEnabled = false
 		end
 	end)
@@ -311,4 +453,4 @@ RunService.RenderStepped:Connect(function()
 			TweenService:Create(Camera, TweenInfo.new(_G.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, target.Character[_G.AimPart].Position)}):Play()
 		end
 	end
-end)
+end) 
