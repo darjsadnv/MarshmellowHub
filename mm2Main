@@ -1,0 +1,311 @@
+local plr = game:GetService("Players").LocalPlayer
+local tween = game:GetService("TweenService")
+
+-- Welcome Text UI
+local textui = Instance.new("ScreenGui")
+textui.Parent = plr:WaitForChild("PlayerGui")
+local text = Instance.new("TextLabel")
+text.Parent = textui
+text.Text = "Welcome, follow zengy_v4 on tiktok"
+text.Font = Enum.Font.DenkOne
+text.TextSize = 16
+text.BackgroundTransparency = 1
+text.TextScaled = true
+text.Position = UDim2.new(0, 0, 0, 0)
+text.Size = UDim2.new(1, 0, 1, 0)
+text.TextColor3 = Color3.new(1, 1, 1)
+text.TextStrokeTransparency = 0
+local goal = {TextTransparency = 1}
+local tween1 = tween:Create(text, TweenInfo.new(5), goal)
+tween1:Play()
+
+-- After welcome text fades out
+tween1.Completed:Connect(function()
+	textui:Destroy()
+	local ui = Instance.new("ScreenGui")
+	ui.Parent = plr:WaitForChild("PlayerGui")
+
+	-- ImageButton
+	local ib = Instance.new("ImageButton")
+	ib.Image = "rbxassetid://115146434078797"
+	ib.Size = UDim2.new(0, 56, 0, 46)
+	ib.Parent = ui
+	ib.Position = UDim2.new(0.5, -28, 0.5, -23)
+
+	-- Draggable ImageButton
+	local dragging = false
+	local dragInput, startPos
+	ib.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			startPos = input.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	ib.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			dragInput = input
+		end
+	end)
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+		if dragging and input == dragInput then
+			local delta = input.Position - startPos
+			ib.Position = UDim2.new(ib.Position.X.Scale, ib.Position.X.Offset + delta.X, ib.Position.Y.Scale, ib.Position.Y.Offset + delta.Y)
+			startPos = input.Position
+		end
+	end)
+
+	-- Hover effects
+	ib.MouseEnter:Connect(function()
+		ib:TweenSize(UDim2.new(0, 70, 0, 60), "Out", "Quad", 0.5)
+	end)
+	ib.MouseLeave:Connect(function()
+		ib:TweenSize(UDim2.new(0, 56, 0, 46), "Out", "Quad", 0.5)
+	end)
+
+	-- Frame UI (Enhanced Design)
+	local frame = Instance.new("Frame")
+	frame.Parent = ui
+	frame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1)
+	frame.BackgroundTransparency = 1
+	frame.Size = UDim2.new(0, 400, 0, 300)
+	frame.Position = UDim2.new(0.5, -200, 0.5, -150)
+	frame.AnchorPoint = Vector2.new(0.5, 0.5)
+	frame.Visible = false
+	frame.ClipsDescendants = true
+
+	-- Gradient Background
+	local gradient = Instance.new("UIGradient")
+	gradient.Parent = frame
+	gradient.Rotation = 90
+	gradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)),
+		ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.2))
+	})
+
+	-- Rounded Corners
+	local corner = Instance.new("UICorner")
+	corner.Parent = frame
+	corner.CornerRadius = UDim.new(0, 12)
+
+	-- Title Bar
+	local titleBar = Instance.new("Frame")
+	titleBar.Parent = frame
+	titleBar.BackgroundColor3 = Color3.new(0.15, 0.15, 0.25)
+	titleBar.Size = UDim2.new(1, 0, 0, 40)
+	titleBar.Position = UDim2.new(0, 0, 0, 0)
+
+	-- Title Text
+	local title = Instance.new("TextLabel")
+	title.Parent = titleBar
+	title.Text = "Solara V3"
+	title.Font = Enum.Font.GothamBold
+	title.TextSize = 18
+	title.TextColor3 = Color3.new(1, 1, 1)
+	title.BackgroundTransparency = 1
+	title.Position = UDim2.new(0.5, 0, 0.5, 0)
+	title.AnchorPoint = Vector2.new(0.5, 0.5)
+	title.TextScaled = true
+
+	-- Close Button (Updated to work)
+	local closeButton = Instance.new("TextButton")
+	closeButton.Parent = titleBar
+	closeButton.Text = "X"
+	closeButton.Font = Enum.Font.GothamBold
+	closeButton.TextSize = 16
+	closeButton.TextColor3 = Color3.new(1, 1, 1)
+	closeButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+	closeButton.Position = UDim2.new(1, -40, 0.5, -10)
+	closeButton.Size = UDim2.new(0, 30, 0, 30)
+	closeButton.AnchorPoint = Vector2.new(1, 0.5)
+
+	-- Add Close Button Functionality
+	closeButton.MouseButton1Click:Connect(function()
+		local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			BackgroundTransparency = 1,
+			Size = UDim2.new(0, 0, 0, 0)
+		})
+		frameTweenOut:Play()
+		frameTweenOut.Completed:Wait()
+		frame.Visible = false
+	end)
+
+	-- Draggable Frame
+	local frameDragging = false
+	local frameDragInput, frameStartPos
+	titleBar.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			frameDragging = true
+			frameStartPos = input.Position
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					frameDragging = false
+				end
+			end)
+		end
+	end)
+	titleBar.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			frameDragInput = input
+		end
+	end)
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+		if frameDragging and input == frameDragInput then
+			local delta = input.Position - frameStartPos
+			frame.Position = UDim2.new(frame.Position.X.Scale, frame.Position.X.Offset + delta.X, frame.Position.Y.Scale, frame.Position.Y.Offset + delta.Y)
+			frameStartPos = input.Position
+		end
+	end)
+
+	-- Content Frame
+	local content = Instance.new("Frame")
+	content.Parent = frame
+	content.BackgroundTransparency = 1
+	content.Size = UDim2.new(1, -20, 1, -60)
+	content.Position = UDim2.new(0, 10, 0, 50)
+
+	-- Example Content (TextLabel)
+	local exampleText = Instance.new("TextLabel")
+	exampleText.Parent = content
+	exampleText.Text = "Welcome to Solara V3"
+	exampleText.Font = Enum.Font.Gotham
+	exampleText.TextSize = 14
+	exampleText.TextColor3 = Color3.new(1, 1, 1)
+	exampleText.BackgroundTransparency = 1
+	exampleText.Position = UDim2.new(0.5, 0, 0.5, 0)
+	exampleText.AnchorPoint = Vector2.new(0.5, 0.5)
+	exampleText.TextScaled = true
+
+	-- Toggle for Aimbot (On/Off Button)
+	local toggleButton = Instance.new("TextButton")
+	toggleButton.Parent = frame
+	toggleButton.Text = "Aimbot: Off"
+	toggleButton.Font = Enum.Font.GothamBold
+	toggleButton.TextSize = 18
+	toggleButton.TextColor3 = Color3.new(1, 1, 1)
+	toggleButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3)
+	toggleButton.Size = UDim2.new(0, 200, 0, 50)
+	toggleButton.Position = UDim2.new(0.5, -100, 1, -60)
+	toggleButton.AnchorPoint = Vector2.new(0.5, 0.5)
+
+	-- Toggle functionality
+	local aimbotEnabled = false
+	toggleButton.MouseButton1Click:Connect(function()
+		aimbotEnabled = not aimbotEnabled
+		if aimbotEnabled then
+			toggleButton.Text = "Aimbot: On"
+			_G.AimbotEnabled = true
+		else
+			toggleButton.Text = "Aimbot: Off"
+			_G.AimbotEnabled = false
+		end
+	end)
+
+	-- Tween for frame pop-up
+	local frameTweenIn = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		BackgroundTransparency = 0,
+		Size = UDim2.new(0, 400, 0, 300)
+	})
+	local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+		BackgroundTransparency = 1,
+		Size = UDim2.new(0, 0, 0, 0)
+	})
+
+	-- Show frame when ImageButton is clicked
+	ib.MouseButton1Click:Connect(function()
+		frame.Visible = true
+		frameTweenIn:Play()
+	end)
+end)
+
+-- Aimbot Code
+local Camera = workspace.CurrentCamera
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+local Holding = false
+
+_G.AimbotEnabled = false
+_G.TeamCheck = false
+_G.AimPart = "Head"
+_G.Sensitivity = 0
+_G.FOV = 50
+
+local function GetClosestPlayer()
+	local MaximumDistance = math.huge
+	local Target = nil
+
+	for _, v in next, Players:GetPlayers() do
+		if v.Name ~= LocalPlayer.Name then
+			if _G.TeamCheck == true then
+				if v.Team ~= LocalPlayer.Team then
+					if v.Character ~= nil then
+						if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+							if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+								local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+								local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+								-- Check if the player is within the FOV
+								local direction = (v.Character.HumanoidRootPart.Position - Camera.CFrame.Position).unit
+								local angle = math.deg(math.acos(direction:Dot(Camera.CFrame.LookVector)))
+								if angle < _G.FOV then
+									if VectorDistance < MaximumDistance then
+										Target = v
+										MaximumDistance = VectorDistance
+									end
+								end
+							end
+						end
+					end
+				end
+			else
+				if v.Character ~= nil then
+					if v.Character:FindFirstChild("HumanoidRootPart") ~= nil then
+						if v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("Humanoid").Health ~= 0 then
+							local ScreenPoint = Camera:WorldToScreenPoint(v.Character:WaitForChild("HumanoidRootPart", math.huge).Position)
+							local VectorDistance = (Vector2.new(UserInputService:GetMouseLocation().X, UserInputService:GetMouseLocation().Y) - Vector2.new(ScreenPoint.X, ScreenPoint.Y)).Magnitude
+
+							-- Check if the player is within the FOV
+							local direction = (v.Character.HumanoidRootPart.Position - Camera.CFrame.Position).unit
+							local angle = math.deg(math.acos(direction:Dot(Camera.CFrame.LookVector)))
+							if angle < _G.FOV then
+								if VectorDistance < MaximumDistance then
+									Target = v
+									MaximumDistance = VectorDistance
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	return Target
+end
+
+UserInputService.InputBegan:Connect(function(Input)
+	if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+		Holding = true
+	end
+end)
+
+UserInputService.InputEnded:Connect(function(Input)
+	if Input.UserInputType == Enum.UserInputType.MouseButton2 then
+		Holding = false
+	end
+end)
+
+RunService.RenderStepped:Connect(function()
+	if Holding == true and _G.AimbotEnabled == true then
+		local target = GetClosestPlayer()
+		if target then
+			TweenService:Create(Camera, TweenInfo.new(_G.Sensitivity, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {CFrame = CFrame.new(Camera.CFrame.Position, target.Character[_G.AimPart].Position)}):Play()
+		end
+	end
+end)
