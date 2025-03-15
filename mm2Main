@@ -229,7 +229,7 @@ icon.BackgroundTransparency = 1
 	-- Title Text
 	local title = Instance.new("TextLabel")
 	title.Parent = titleBar
-	title.Text = "Marshmallow Hub V3"
+	title.Text = "Follow Zengy_V4 on TikTok"
 	title.Font = Enum.Font.GothamBold
 	title.TextSize = 18
 	title.TextColor3 = Color3.new(1, 1, 1)
