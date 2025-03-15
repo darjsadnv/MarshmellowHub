@@ -3,14 +3,18 @@
 -- keyed script requires 70+ unc 
 
 local plr = game:GetService("Players").LocalPlayer
-local tween = game:GetService("TweenService")
-local correctGameId = 142823291
-if game.PlaceId ~= correctGameId then
-	-- Kick the player if they are not in the correct game
-	print("not in correct game")
-	plr:Kick("Looks like you're not in MM2. Follow zengy_v4 on TikTok!")
-	return -- Stop the script from running further
+-- Create a RemoteEvent for sending messages
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local sendMessageEvent = Instance.new("RemoteEvent")
+sendMessageEvent.Name = "SendMessage"
+sendMessageEvent.Parent = ReplicatedStorage
+
+-- Function to send a local message to the player
+local function sendLocalMessage(player, message)
+	sendMessageEvent:FireClient(player, message)
 end
+local tween = game:GetService("TweenService")
+
 
 
 
@@ -91,6 +95,49 @@ tween1.Completed:Connect(function()
 	frame.AnchorPoint = Vector2.new(0.5, 0.5)
 	frame.Visible = false
 	frame.ClipsDescendants = true
+	-- Notification TextLabel
+	local notificationLabel = Instance.new("TextLabel")
+	notificationLabel.Parent = ui -- Parent it to the main UI
+	notificationLabel.Text = ""
+	notificationLabel.Font = Enum.Font.GothamBold
+	notificationLabel.TextSize = 16
+	notificationLabel.TextColor3 = Color3.new(1, 1, 1) -- White text
+	notificationLabel.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2) -- Dark background
+	notificationLabel.Size = UDim2.new(0, 300, 0, 40) -- Size of the notification label
+	notificationLabel.Position = UDim2.new(0.5, -150, 1, -50) -- Start off-screen
+	notificationLabel.AnchorPoint = Vector2.new(0.5, 0.5) -- Center the label
+	notificationLabel.Visible = false -- Initially hidden
+	notificationLabel.TextXAlignment = Enum.TextXAlignment.Center -- Center text horizontally
+	notificationLabel.TextYAlignment = Enum.TextYAlignment.Center -- Center text vertically
+
+	-- Rounded Corners for Notification Label
+	local notificationCorner = Instance.new("UICorner")
+	notificationCorner.CornerRadius = UDim.new(0, 8) -- Rounded corners
+	notificationCorner.Parent = notificationLabel
+	
+	-- Function to show notification with tween
+	local function showNotification(message, duration)
+		notificationLabel.Text = message
+		notificationLabel.Position = UDim2.new(0.5, -150, 1, -50) -- Start off-screen
+		notificationLabel.Visible = true
+
+		-- Tween in
+		local tweenIn = tween:Create(notificationLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Position = UDim2.new(0.5, -150, 0.9, -50) -- Move to the center
+		})
+		tweenIn:Play()
+
+		wait(duration) -- Display the notification for the specified duration
+
+		-- Tween out
+		local tweenOut = tween:Create(notificationLabel, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			Position = UDim2.new(0.5, -150, 1, -50) -- Move off-screen
+		})
+		tweenOut:Play()
+
+		tweenOut.Completed:Wait() -- Wait for the tween to complete
+		notificationLabel.Visible = false
+	end
 
 	-- Rounded Corners
 	local corner = Instance.new("UICorner")
@@ -157,48 +204,37 @@ tween1.Completed:Connect(function()
 	txv3Corner.CornerRadius = UDim.new(0, 8) -- Rounded corners
 	-- Title Bar
 	local titleBar = Instance.new("Frame")
-titleBar.Parent = frame
-titleBar.BackgroundColor3 = Color3.new(0.15, 0.15, 0.25)
-titleBar.Size = UDim2.new(1, 0, 0, 50) -- Slightly taller
-titleBar.Position = UDim2.new(0, 0, 0, 0)
+	titleBar.Parent = frame
+	titleBar.BackgroundColor3 = Color3.new(0.15, 0.15, 0.25)
+	titleBar.Size = UDim2.new(1, 0, 0, 50) -- Slightly taller
+	titleBar.Position = UDim2.new(0, 0, 0, 0)
 
--- Gradient for Title Bar
-local titleGradient = Instance.new("UIGradient")
-titleGradient.Parent = titleBar
-titleGradient.Rotation = 90
-titleGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)), -- Light blue
-    ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.3)) -- Dark blue
-})
+	-- Gradient for Title Bar
+	local titleGradient = Instance.new("UIGradient")
+	titleGradient.Parent = titleBar
+	titleGradient.Rotation = 90
+	titleGradient.Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.new(0.2, 0.2, 0.4)), -- Light blue
+		ColorSequenceKeypoint.new(1, Color3.new(0.1, 0.1, 0.3)) -- Dark blue
+	})
 
--- Rounded Corners for Title Bar
-local titleCorner = Instance.new("UICorner")
-titleCorner.CornerRadius = UDim.new(0, 15)
-titleCorner.Parent = titleBar
+	-- Rounded Corners for Title Bar
+	local titleCorner = Instance.new("UICorner")
+	titleCorner.CornerRadius = UDim.new(0, 15)
+	titleCorner.Parent = titleBar
 
--- Title Text
-local title = Instance.new("TextLabel")
-title.Parent = titleBar
-title.Text = "Marshmallow Hub V3"
-title.Font = Enum.Font.GothamBold
-title.TextSize = 20
-title.TextColor3 = Color3.new(1, 1, 1) -- White text
-title.BackgroundTransparency = 1
-title.Size = UDim2.new(0, 200, 0, 30)
-title.Position = UDim2.new(0.5, -100, 0.5, -15)
-title.AnchorPoint = Vector2.new(0.5, 0.5)
-title.TextXAlignment = Enum.TextXAlignment.Center
-
--- Icon for Title
-local icon = Instance.new("ImageLabel")
-icon.Parent = titleBar
-icon.Image = "rbxassetid://1234567890" -- Replace with your icon asset ID
-icon.Size = UDim2.new(0, 30, 0, 30)
-icon.Position = UDim2.new(0, 10, 0.5, -15)
-icon.AnchorPoint = Vector2.new(0, 0.5)
-icon.BackgroundTransparency = 1
-	--=========
 	
+
+	-- Icon for Title
+	local icon = Instance.new("ImageLabel")
+	icon.Parent = titleBar
+	icon.Image = "rbxassetid://1234567890" -- Replace with your icon asset ID
+	icon.Size = UDim2.new(0, 30, 0, 30)
+	icon.Position = UDim2.new(0, 10, 0.5, -15)
+	icon.AnchorPoint = Vector2.new(0, 0.5)
+	icon.BackgroundTransparency = 1
+	--=========
+
 	local themeToggle = Instance.new("TextButton")
 	themeToggle.Parent = titleBar
 	themeToggle.Text = "🌙"
@@ -207,9 +243,15 @@ icon.BackgroundTransparency = 1
 	themeToggle.TextColor3 = Color3.new(1, 1, 1)
 	themeToggle.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
 	themeToggle.Size = UDim2.new(0, 40, 0, 30)
-	themeToggle.Position = UDim2.new(1, -50,0.9, -15)
+	themeToggle.Position = UDim2.new(1, -45,0.9, -20)
 	themeToggle.AnchorPoint = Vector2.new(1, 0.5)
 	themeToggle.AutoButtonColor = false
+	themeToggle.MouseEnter:Connect(function()
+		themeToggle.BackgroundColor = Color3.new(1, 1, 1)
+		themeToggle.MouseLeave:Connect(function()
+			themeToggle.BackgroundColor = Color3.new(0.2, 0.2, 0.2)
+		end)
+	end)
 
 	-- Theme Toggle Functionality
 	local isDarkTheme = true
@@ -229,7 +271,7 @@ icon.BackgroundTransparency = 1
 	-- Title Text
 	local title = Instance.new("TextLabel")
 	title.Parent = titleBar
-	title.Text = "Follow Zengy_V4 on TikTok"
+	title.Text = "Follow Zengy_V4 on Tiktok"
 	title.Font = Enum.Font.GothamBold
 	title.TextSize = 18
 	title.TextColor3 = Color3.new(1, 1, 1)
@@ -250,16 +292,6 @@ icon.BackgroundTransparency = 1
 	closeButton.Size = UDim2.new(0, 30, 0, 30)
 	closeButton.AnchorPoint = Vector2.new(1, 0.5)
 
-	-- Close Button Functionality
-	closeButton.MouseButton1Click:Connect(function()
-		local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-			BackgroundTransparency = 1,
-			Size = UDim2.new(0, 0, 0, 0)
-		})
-		frameTweenOut:Play()
-		frameTweenOut.Completed:Wait()
-		frame.Visible = false
-	end)
 
 	-- Draggable Frame
 	local frameDragging = false
@@ -294,8 +326,8 @@ icon.BackgroundTransparency = 1
 	content.BackgroundTransparency = 1
 	content.Size = UDim2.new(1, -20, 1, -60)
 	content.Position = UDim2.new(0, 10, 0, 50)
-	
-	
+
+
 	local function CreateButton(parent, text, positionY)
 		local button = Instance.new("TextButton")
 		button.Parent = parent
@@ -345,14 +377,14 @@ icon.BackgroundTransparency = 1
 	local jumpButton = CreateButton(content, "Infinite Jump: Off", 0.6)
 	local espButton = CreateButton(content, "ESP: Off", 0.8)
 	local aimbotButton = CreateButton(content, "Aimbot: Off", 1.0)
-	
+
 	-- Speed Button
 	speedButton.Position = UDim2.new(0.5, -100, 0.2, -20)
 	teleportButton.Position = UDim2.new(0.5, -100, 0.4, -20)
 	jumpButton.Position = UDim2.new(0.5, -100, 0.6, -20)
 	espButton.Position = UDim2.new(0.5, -100, 0.8, -20)
 	aimbotButton.Position = UDim2.new(0.5, -100, 1.0, -20)
-	
+
 	-- Speed Bar Frame (Initially hidden)
 	local speedBarFrame = Instance.new("Frame")
 	speedBarFrame.Parent = ui -- Parent it to the main UI
@@ -410,36 +442,167 @@ icon.BackgroundTransparency = 1
 	local speedEnabled = false
 	local currentSpeed = 16 -- Default speed
 
+	-- Store the last speed value
+	local lastSpeed = 16 -- Default speed
+	
+
+	-- Speed Button
+	-- Speed Button
+	-- Speed Button
 	speedButton.MouseButton1Click:Connect(function()
-		speedEnabled = not speedEnabled
-		if speedEnabled then
-			speedButton.Text = "Speed: On"
-			speedButton.BackgroundColor3 = Color3.new(0, 0.5, 0) -- Green when enabled
-			speedBarFrame.Visible = true -- Show the speed bar frame
+		if speedBarFrame.Visible then
+			showNotification("Close adjust frame to enable speed!", 3) -- Show notification for 3 seconds
 		else
-			speedButton.Text = "Speed: Off"
-			speedButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3) -- Gray when disabled
-			speedBarFrame.Visible = false -- Hide the speed bar frame
-			plr.Character.Humanoid.WalkSpeed = 16 -- Reset speed to default
+			speedEnabled = not speedEnabled
+			if speedEnabled then
+				speedButton.Text = "Speed: On"
+				speedButton.BackgroundColor3 = Color3.new(0, 0.5, 0) -- Green when enabled
+				plr.Character.Humanoid.WalkSpeed = lastSpeed -- Apply the last speed setting
+			else
+				speedButton.Text = "Speed: Off"
+				speedButton.BackgroundColor3 = Color3.new(0.3, 0.3, 0.3) -- Gray when disabled
+				plr.Character.Humanoid.WalkSpeed = 16 -- Reset speed to default
+			end
 		end
 	end)
+	
+	--=====
+	
+	-- Close Button Functionality
+	closeButton.MouseButton1Click:Connect(function()
+		-- Tween out the main frame
+		local frameTweenOut = tween:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+			BackgroundTransparency = 1,
+			Size = UDim2.new(0, 0, 0, 0)
+		})
+		frameTweenOut:Play()
+		frameTweenOut.Completed:Wait()
 
-	-- Slider Functionality
+		-- Hide the main frame
+		frame.Visible = false
+
+		-- Hide the speed frame when the main GUI is closed
+		if speedBarFrame then
+			speedBarFrame.Visible = false
+		end
+	end)
+	
+	---=======
+	-- Speed Slider Functionality
 	local dragging = false
 	local dragStart = nil
 	local dragStartX = nil
 
+	-- Mouse Down: Start dragging
 	sliderHandle.MouseButton1Down:Connect(function()
 		dragging = true
 		dragStart = sliderHandle.Position.X.Scale
 		dragStartX = sliderHandle.AbsolutePosition.X
 	end)
 
+	-- Mouse Up: Stop dragging
 	game:GetService("UserInputService").InputEnded:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
 			dragging = false
 		end
 	end)
+
+	-- Mouse Move: Update slider position
+	game:GetService("UserInputService").InputChanged:Connect(function(input)
+		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+			-- Calculate new scale based on mouse position
+			local mouseX = input.Position.X
+			local sliderAbsoluteX = speedSliderBackground.AbsolutePosition.X
+			local sliderWidth = speedSliderBackground.AbsoluteSize.X
+			local newScale = math.clamp((mouseX - sliderAbsoluteX) / sliderWidth, 0, 1)
+
+			-- Update slider handle and bar
+			sliderHandle.Position = UDim2.new(newScale, 0, 0.5, 0)
+			sliderBar.Size = UDim2.new(newScale, 0, 1, 0)
+
+			-- Update speed based on slider position
+			currentSpeed = 16 + (newScale * 50) -- Adjust speed between 16 and 66
+			lastSpeed = currentSpeed -- Store the current speed
+
+			if speedEnabled then
+				plr.Character.Humanoid.WalkSpeed = currentSpeed
+			end
+		end
+	end)
+	
+	--===
+	-- Add a close button to the adjust frame
+	local closeAdjustButton = Instance.new("TextButton")
+	closeAdjustButton.Parent = speedBarFrame
+	closeAdjustButton.Text = "X"
+	closeAdjustButton.Font = Enum.Font.GothamBold
+	closeAdjustButton.TextSize = 16
+	closeAdjustButton.TextColor3 = Color3.new(1, 1, 1) -- White text
+	closeAdjustButton.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2) -- Dark background
+	closeAdjustButton.Size = UDim2.new(0, 30, 0, 30) -- Close button size
+	closeAdjustButton.Position = UDim2.new(1, -35, 0, 5) -- Position in the top-right corner
+	closeAdjustButton.AnchorPoint = Vector2.new(1, 0) -- Anchor to the top-right
+	closeAdjustButton.ZIndex = 3 -- Ensure it's above other elements
+
+	-- Close adjust frame when the close button is clicked
+	closeAdjustButton.MouseButton1Click:Connect(function()
+		speedBarFrame.Visible = false
+	end)
+	
+	-- Create the custom small button
+	local adjustButton = Instance.new("TextButton")
+	adjustButton.Parent = frame -- Parent it to the main frame
+	adjustButton.Text = "⚙️" -- Gear emoji (you can replace this with a custom icon)
+	adjustButton.Font = Enum.Font.GothamBold
+	adjustButton.TextSize = 18
+	adjustButton.TextColor3 = Color3.new(1, 1, 1) -- White text
+	adjustButton.BackgroundColor3 = Color3.new(0, 0, 0) -- Black background
+	adjustButton.Size = UDim2.new(0, 40, 0, 40) -- Small button size
+	adjustButton.Position = UDim2.new(0.5, 30, 0.2, 20) -- Position {0.5, 30}, {0.2, 20}
+	adjustButton.AnchorPoint = Vector2.new(0.5, 0.5)
+	adjustButton.AutoButtonColor = false -- Disable default button color change
+	adjustButton.TextScaled = true -- Scale text to fit the button
+	adjustButton.ZIndex = 2 -- Ensure it's above other elements
+
+	-- Rounded corners for the button
+	local adjustButtonCorner = Instance.new("UICorner")
+	adjustButtonCorner.CornerRadius = UDim.new(0, 8) -- Rounded corners
+	adjustButtonCorner.Parent = adjustButton
+
+	-- Hover effects for the button
+	adjustButton.MouseEnter:Connect(function()
+		tween:Create(adjustButton, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.new(1, 1, 1), -- White background on hover
+			TextColor3 = Color3.new(0, 0, 0) -- Black text on hover
+		}):Play()
+	end)
+
+	adjustButton.MouseLeave:Connect(function()
+		tween:Create(adjustButton, TweenInfo.new(0.2), {
+			BackgroundColor3 = Color3.new(0, 0, 0), -- Black background on leave
+			TextColor3 = Color3.new(1, 1, 1) -- White text on leave
+		}):Play()
+	end)
+
+	-- Function to toggle the adjust frame visibility
+	-- Function to toggle the adjust frame visibility
+	adjustButton.MouseButton1Click:Connect(function()
+		if speedEnabled then
+			showNotification("Turn off speed to adjust!", 3) -- Show notification for 3 seconds
+		else
+			speedBarFrame.Visible = not speedBarFrame.Visible -- Toggle visibility
+		end
+	end)
+	---===========
+	
+	
+
+
+
+
+
+
+--=========================================
 
 	game:GetService("UserInputService").InputChanged:Connect(function(input)
 		if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
@@ -471,7 +634,7 @@ icon.BackgroundTransparency = 1
 	end)
 
 	-- Teleport Button
-	
+
 	-- =================================
 	-- Teleport Functionality
 	teleportButton.MouseButton1Click:Connect(function()
@@ -543,7 +706,7 @@ icon.BackgroundTransparency = 1
 		end)
 	end)
 
-	
+
 	-- Toggle State
 	local doubleJumpEnabled = false
 	local infiniteJumpEnabled = false
@@ -603,11 +766,10 @@ icon.BackgroundTransparency = 1
 	-- ===== END OF DOUBLE JUMP AND INFINITE JUMP LOGIC =====
 
 	-- ESP Toggle Button
-	
 
 	-- ESP Toggle Functionality
 	local espEnabled = false
-	local espBoxes = {} -- Stores ESP boxes for each player
+	local highlights = {} -- Stores Highlight objects for each player
 
 	espButton.MouseButton1Click:Connect(function()
 		espEnabled = not espEnabled
@@ -622,35 +784,67 @@ icon.BackgroundTransparency = 1
 		end
 	end)
 
+	-- Function to get the role color of a player
+	local function getRoleColor(plr)
+		if (plr.Backpack:FindFirstChild("Knife") or (plr.Character and plr.Character:FindFirstChild("Knife"))) then
+			return Color3.new(1, 0, 0) -- Red for Knife
+		elseif (plr.Backpack:FindFirstChild("Gun") or (plr.Character and plr.Character:FindFirstChild("Gun"))) then
+			return Color3.new(0, 0, 1) -- Blue for Gun
+		else
+			return Color3.new(0, 1, 0) -- Green for Innocent
+		end
+	end
+
 	-- Function to Enable ESP
 	function EnableESP()
 		for _, player in pairs(game:GetService("Players"):GetPlayers()) do
-			if player ~= plr then
-				local character = player.Character
-				if character then
-					local box = Instance.new("BoxHandleAdornment")
-					box.Size = Vector3.new(4, 6, 4)
-					box.Adornee = character:FindFirstChild("HumanoidRootPart")
-					box.AlwaysOnTop = true
-					box.ZIndex = 10
-					box.Transparency = 0.5
-					box.Color3 = Color3.new(1, 0, 0)
-					box.Parent = character
-					espBoxes[player] = box
+			if player ~= plr and player.Character then
+				local highlight = Instance.new("Highlight")
+				highlight.Parent = player.Character
+				highlight.FillTransparency = 0.5
+				highlight.OutlineTransparency = 0.5
+				highlight.FillColor = getRoleColor(player)
+				highlight.OutlineColor = Color3.new(1, 1, 1)
+				highlights[player] = highlight
+			end
+		end
+
+		-- Listen for new players
+		game:GetService("Players").PlayerAdded:Connect(function(player)
+			player.CharacterAdded:Connect(function(character)
+				if espEnabled then
+					local highlight = Instance.new("Highlight")
+					highlight.Parent = character
+					highlight.FillTransparency = 0.5
+					highlight.OutlineTransparency = 0.5
+					highlight.FillColor = getRoleColor(player)
+					highlight.OutlineColor = Color3.new(1, 1, 1)
+					highlights[player] = highlight
+				end
+			end)
+		end)
+
+		-- Update colors periodically
+		while espEnabled do
+			for player, highlight in pairs(highlights) do
+				if player.Character and highlight then
+					highlight.FillColor = getRoleColor(player)
 				end
 			end
+			wait(0.1)
 		end
 	end
 
 	-- Function to Disable ESP
 	function DisableESP()
-		for player, box in pairs(espBoxes) do
-			box:Destroy()
+		for player, highlight in pairs(highlights) do
+			if highlight then
+				highlight:Destroy()
+			end
 		end
-		espBoxes = {}
+		highlights = {}
 	end
 
-	
 
 	-- Aimbot Toggle Functionality
 	local aimbotEnabled = false
